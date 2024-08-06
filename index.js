@@ -17,6 +17,10 @@ app.use(express.static('static'))
 app.set('view engine', 'ejs');
 app.use(getClientIP.middleware);
 
+app.get('/', function(req, res) {
+    res.redirect('https://linkfire.com/')
+})
+
 app.get('/SESTRAID', function(req, res) {
 
     var uuid = 'd056fa82-fc6e-422e-af14-718064869dd7';
@@ -52,5 +56,9 @@ app.get('/SESTRAID', function(req, res) {
         }
     });
 });
+
+app.get('*', function(req, res) {
+    res.render('pages/404')
+})
 
 app.listen(8080)

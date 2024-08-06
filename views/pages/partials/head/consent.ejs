@@ -1,0 +1,130 @@
+
+
+        
+        
+            <script type="text/javascript">
+                window.digitalData = {
+                  settings: {
+                    reportSuites: 'amg,amglinkfire'
+                  },
+                  page: {
+                    pageInfo: {
+                      pageName: `Linkfire:"<%= artist %>":<%= title %>`,
+                      server: `Linkfire:"<%= artist %>"`,
+                      platform: 'Linkfire'
+                    },
+                    category: {
+                      primaryCategory: 'Linkfire:Landing Page',
+                      pageType: 'Linkfire'
+                    }
+                  },
+                  content: {
+                    'artist': "<%= artist %>",
+                    'artists': ["<%= artist %>"],
+                    'album': "<%= title %>",
+                    'track': null,
+                    'isrcs': null, 
+                    'link': "atms.world\/<%= path %>",
+                    'organisation': "Anthems Music Group",
+                    'board': "Anthems Music Group",
+                    'channel': null, 
+                    'activity': null,
+                    'tags': null,
+                  },
+                };
+              </script>
+              
+        
+                
+                
+        <!-- Optimize load: preload scripts -->
+            <link rel="preload" href="https://static.assetlab.io/redirector-prod/3.153.0/release-classic-video.js" as="script">
+        
+        
+            
+        
+        <script id="lnk-template__dialog--opt-in" type="text/template">
+    <div id="modal" class="lnk-c-modal" role="dialog" aria-labelledby="lnk-c-cta__title" aria-describedby="lnk-c-cta__description">
+        
+        <div class="lnk-c-backdrop" onclick="lnk_consent('dismiss')"></div>
+        <div class="lnk-c-modal__container">
+            <div class="lnk-c-modal__content lnk-c-panel--box">
+                <div class="lnk-c-panel__item">
+                    <div class="lnk-c-panel__header">
+                        <h3 id="lnk-c-cta__title">
+                            <span class="lnk-c-icon" data-lnk-icon="shield-blue"></span>
+                            Privacy Notice
+                        </h3>
+                    </div>
+                    <div class="lnk-c-panel__body" id="lnk-c-cta__description">
+                        <p>
+                                                                                                On behalf of <strong>Anthems Music Group</strong>, Linkfire                                                                                        would like to use cookies and similar technologies to personalize your experiences on our sites and to advertise on other sites. By clicking Accept, you agree to our use of analytics, marketing, and advertising cookies.
+                        </p>
+                        <div class="link-c-btn__container">
+                            <button class="lnk-c-btn lnk-c-btn--lg lnk-c-btn__decline" data-test="consent-modal-decline-button" onclick="lnk_consent('update_consent', false, false)">Decline</button>
+                            <button class="lnk-c-btn lnk-c-btn--lg" data-test="consent-modal-accept-button" onclick="lnk_consent('opt_in')">Accept</button>
+                        </div>
+                    </div>
+                    <div class="lnk-c-panel__footer">
+                    This permission automatically expires and can be revoked at any time. <button class="lnk-c-footnote__button lnk-c-inline-btn" onclick="lnk_consent('open_preferences')">Click here</button> to manage permissions.
+                    </div>
+                </div>
+            <button class="lnk-c-panel__close lnk-c-icon-btn lnk-c-icon" data-test="consent-modal-close-button" data-lnk-icon="close" onclick="lnk_consent('dismiss')" aria-label="Close" title="Close"></button>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+<script id="lnk-template__dialog--info" type="text/template">
+
+    <div class="lnk-c-notification--btn-left">
+        <button class="lnk-c-btn--notification lnk-c-icon" data-lnk-icon="shield-grey-sm" onclick="lnk_consent('open_preferences')" aria-label="Privacy settings" title="Privacy settings"></button>
+    </div>
+</script>
+
+
+<script id="lnk-template__dialog--update-consent" type="text/template">
+    <div class="lnk-c-notification" role="dialog" aria-labelledby="lnk-c-update__title" aria-describedby="lnk-c-update__description">
+        <div class="lnk-c-banner lnk-c-banner--lg is-active">
+            <div class="lnk-c-banner__icon lnk-c-icon" data-lnk-icon="shield-blue"></div>
+            <div class="lnk-c-banner__body">
+                <div id="lnk-c-update__title">Privacy Update</div>
+                <p id="lnk-c-update__description">This page has updates that need your attention</p>
+            </div>
+            <button class="lnk-c-banner__btn lnk-c-link-btn" onclick="lnk_consent('open_renew_consent')">Review consent</button>
+        </div>
+    </div>
+</script>
+
+
+<script id="lnk-template__footnote--no-tracking" type="text/template">
+    <div class="lnk-c-footnote" style="">
+        <p>This service uses cookies to track anonymised data only. <button class="lnk-c-footnote__button lnk-c-inline-btn--white" onclick="lnk_consent('open_preferences')">Click here</button> to learn more.</p>
+        <div class="lnk-c-footnote__affiliate">This page may contain affiliate links.</div>
+    </div>
+</script>
+
+
+<script id="lnk-template__footnote--info" type="text/template">
+    <div class="lnk-c-footnote" style="">
+        <p>By using this service, you agree to the use of cookies. <button class="lnk-c-footnote__button lnk-c-inline-btn--white" onclick="lnk_consent('open_preferences')">Click here</button> to manage your permissions.</p>
+        <div class="lnk-c-footnote__affiliate">This page may contain affiliate links.</div>
+    </div>
+</script>
+
+
+<script id="lnk-template__footnote--opted-in" type="text/template">
+    <div class="lnk-c-footnote" style="">
+        <p>You have accepted the use of cookies for this service. <button class="lnk-c-footnote__button lnk-c-inline-btn--white" onclick="lnk_consent('open_preferences')">Click here</button> to manage your permissions.</p>
+        <div class="lnk-c-footnote__affiliate">This page may contain affiliate links.</div>
+    </div>
+</script>
+
+
+<script id="lnk-template__footnote--opted-out" type="text/template">
+    <div class="lnk-c-footnote" style="">
+        <p>You have rejected the use of cookies for this service. <button class="lnk-c-footnote__button lnk-c-inline-btn--white" onclick="lnk_consent('open_preferences')">Click here</button> to manage your permissions.</p>
+        <div class="lnk-c-footnote__affiliate">This page may contain affiliate links.</div>
+    </div>
+</script>

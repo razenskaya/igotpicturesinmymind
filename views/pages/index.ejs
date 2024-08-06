@@ -1,0 +1,139 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+
+<meta charset="utf-8">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title><%= title %></title>
+<meta name="description" content="Listen to <%= title %> by <%= artist %>.">
+<link rel="canonical" href="https://atms.world/<%= uri %>">
+
+<%- include('./partials/head/meta.ejs', {randomuuid: randomuuid, path: uri, title: title, artist: artist, uuid: uuid, boardname: title.toLowerCase(), ip: ip, genre: genre}); %>
+<%- include('./partials/head/icons.ejs'); %>
+<%- include('./partials/head/styles.ejs'); %>
+<%- include('./partials/head/consent.ejs', {randomuuid: randomuuid, path: uri, title: title, artist: artist, uuid: uuid, boardname: title.toLowerCase(), ip: ip, genre: genre}); %>
+</head>
+<body class data-test="landingpage-app">
+  <div class="site-bg" data-test="landingpage-bg">
+    
+    <img src="/medialinks/images/<%= uuid %>/artwork-440x440.jpg" data-test="landingpage-bg-image" role="presentation">
+</div>
+
+    <main class="layout" data-test="layout-wrapper">
+    
+        <div class="layout__cover js-cover">
+            
+        <div class="layout__cover-scroll js-scroll-cover-container">
+            <div class="layout__cover-wrapper">
+                <div class="cover">
+                                        <div class="cover__artwork">
+                        <img class="cover__artwork-img" src="/medialinks/images/<%= uuid %>/artwork-440x440.jpg" alt="<%= artist %> - <%= title %>">
+                    </div>
+                    <div id="video-player"></div>
+                </div>
+            </div>
+        </div>
+        </div>
+            <div class="layout__cover-sizer"></div>
+        <div class="layout__cover-scroll-sizer js-scroll-to-offset-sizer"></div>
+        
+    <div class="layout__header ">
+        <header class="header js-header" id="pl-container" data-test="layout-header">
+        
+            <a class="header__link" href="#music-services" title="Click to view services">
+                <h1 data-test="layout-header-title" class="header__title"><%= title %></h1>
+                                    <p data-test="layout-header-description" class="header__description"><%= artist %></p>
+                            </a>
+        </header>
+    </div>
+    <div class="layout__header-sizer js-header-sizer js-scroll-to-offset-sizer"></div>
+
+    <div class="layout__content" data-test="layout-content">
+                    
+            
+  
+
+  
+
+
+
+
+
+
+
+
+
+<nav
+  id="music-services"
+  data-test="music-service-list"
+  class="music-service-list"
+  role="navigation">
+
+  
+  
+  <% if(services.apple !== undefined){ %>
+  <div class="music-service-list__item" data-test="music-service-list-item">
+    <a id="b2a0e6eb-620f-473f-a6ec-f9397dd2d204" data-media-serviceid="b2a0e6eb-620f-473f-a6ec-f9397dd2d204" data-linkid="6689ac2a-7b8b-4990-ae95-a7341e3977a6" data-carousel="false" class="music-service-list__link js-redirect" href="https://music.apple.com/<%= ip.countryCode %>/album/<%= services.apple %>" data-marketing-consent="" data-voucher-enabled="" data-app-type="manual" data-test="music-service-list-link" data-label="itunes" data-category="service" data-category-type="download" data-action="Download" data-rank="5" onclick="window.open('https:\/\/music.apple.com\/<%= ip.countryCode %>\/album\/<%= services.apple %>', '_blank').focus();">
+  
+  <div class="music-service-list__content">
+    <img class="music-service-list__img" data-test="music-service-item-image" src="https://services.linkfire.com/logo_itunes_onlight.svg" alt="iTunes" longdesc="https://music.apple.com/<%= ip.countryCode %>/album/<%= services.apple %>">
+    <button class="btn music-service-list__btn" data-test="music-service-item-button" tabindex="-1" title="Download" data-listener="true">
+      <span class="btn-label" data-test="music-service-item-button-label">Download</span>
+    </button>
+  </div>
+</a>
+  </div>
+  <div class="music-service-list__item" data-test="music-service-list-item">
+    <a id="8f82cc1c-a2c3-4438-8a29-285983518182" data-media-serviceid="8f82cc1c-a2c3-4438-8a29-285983518182" data-linkid="ec751de7-8c8e-4e14-9d0f-c58448a4159f" data-carousel="false" class="music-service-list__link js-redirect" href="https://music.apple.com/<%= ip.countryCode %>/album/<%= services.apple %>" data-marketing-consent="" data-voucher-enabled="" data-app-type="manual" data-test="music-service-list-link" data-label="applemusic" data-category="service" data-category-type="play" data-action="Play" data-rank="1" onclick="window.open('https:\/\/music.apple.com\/<%= ip.countryCode %>\/album\/<%= services.apple %>', '_blank').focus();">
+  
+  <div class="music-service-list__content">
+    <img class="music-service-list__img" data-test="music-service-item-image" src="https://services.linkfire.com/logo_applemusic_onlight.svg" alt="Apple Music" longdesc="https://music.apple.com/<%= ip.countryCode %>/album/<%= services.apple %>">
+    <button class="btn music-service-list__btn" data-test="music-service-item-button" tabindex="-1" title="Играть">
+      <span class="btn-label" data-test="music-service-item-button-label">Play</span>
+    </button>
+  </div>
+</a>
+  </div>
+  <% } %>
+  <% if(services.spotify !== undefined){ %>
+    <div class="music-service-list__item" data-test="music-service-list-item">
+      <a id="7a586f9f-9e2d-4383-83cc-b2aa5bd1798d" data-media-serviceid="7a586f9f-9e2d-4383-83cc-b2aa5bd1798d" data-linkid="a1073848-dbe9-4d00-b2fa-509c08e2b6bf" data-carousel="false" class="music-service-list__link js-redirect" href="https://open.spotify.com/album/<%= services.spotify %>" data-uri="spotify://album/<%= services.spotify %>" data-marketing-consent="" data-voucher-enabled="" data-app-type="manual" data-test="music-service-list-link" data-label="spotify" data-category="service" data-category-type="play" data-action="Играть" data-rank="2"  onclick="window.open('https:\/\/open.spotify.com\/album\/<%= services.spotify %>?go=1', '_blank').focus();">
+    
+    <div class="music-service-list__content">
+      <img class="music-service-list__img" data-test="music-service-item-image" src="https://services.linkfire.com/logo_spotify_onlight.svg" alt="Spotify" longdesc="https://open.spotify.com/album/<%= services.itunes %>?go=1">
+      <button class="btn music-service-list__btn" data-test="music-service-item-button" tabindex="-1" title="Play">
+        <span class="btn-label" data-test="music-service-item-button-label">Play</span>
+      </button>
+    </div>
+  </a>
+    </div>
+  <% } %>
+  
+  
+  
+  
+  
+  
+  
+ 
+
+
+   </nav>
+   </div>
+   <footer>
+    <div id="lnk-c-footer" data-test="layout-footer" style="" class="is-ready">
+    </div>  
+            
+</footer>   
+</main>
+
+<%- include('./partials/head/consentinfo', {randomuuid: randomuuid, path: uri, title: title, artist: artist, uuid: uuid, boardname: title.toLowerCase(), ip: ip, genre: genre}) %>
+
+    
+<script>
+  window.linkfire.linkImages = {"visual":{"artwork":"\/medialinks\/images\/<%= uuid %>\/artwork-440x440.jpg"},"meta":{"facebook":"\/medialinks\/images\/<%= uuid %>\/artwork-600x315.jpg","twitter":"\/medialinks\/images\/<%= uuid %>\/artwork-440x220.jpg"}};
+</script>
+
+</body>

@@ -25,7 +25,7 @@ app.get('/SESTRAID', function(req, res) {
 
     var uuid = 'd056fa82-fc6e-422e-af14-718064869dd7';
 
-    var clientIp = "37.230.243.86";
+    var clientIp = req.clientIp;
     var lookUp = geoip.lookup(clientIp);
 
     function finishcity() { if (lookUp.city) {

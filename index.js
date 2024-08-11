@@ -43,7 +43,7 @@ app.get('/SESTRAID', function(req, res) {
         genre: "Pop",
         ip: {
             address: clientIp,
-            country: clist.findByIso2(lookUp.country).name,
+            country: clist.findByIso2(lookUp.country).name || "Unknown",
             countryCode: lookUp.country,
             continent: clist.findByIso2(lookUp.country).continent,
             city: finishcity(),

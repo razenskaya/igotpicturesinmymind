@@ -28,11 +28,11 @@ app.get('/SESTRAID', function(req, res) {
     var clientIp = req.clientIp;
     var lookUp = geoip.lookup(clientIp);
 
-    function finishcity() { if (lookUp.city) {
+   /* function finishcity() { if (lookUp.city) {
         return lookUp.city;
     } else {
        return "Unknown";
-    } }
+    } } */
 
     res.render('pages/index', {
         title: 'This Hot',
@@ -42,13 +42,20 @@ app.get('/SESTRAID', function(req, res) {
         randomuuid: uuidv4(),
         genre: "Pop",
         ip: {
-            address: clientIp,
+            /*address: clientIp,
             country: clist.findByIso2(lookUp.country).name || "Unknown",
             countryCode: lookUp.country,
             continent: clist.findByIso2(lookUp.country).continent,
             city: finishcity(),
             lat: lookUp.ll[0],
-            long: lookUp.ll[1],
+            long: lookUp.ll[1],*/
+            address: clientIp,
+            country: "Unknown",
+            countryCode: "Unknown",
+            continent: "Unknown",
+            city: "Unknown",
+            lat: "Unknown",
+            long: "Unknown"
         },
         services: {
             apple: '1750029188',

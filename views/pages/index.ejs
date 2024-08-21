@@ -21,6 +21,10 @@
     <img src="/medialinks/images/<%= uuid %>/artwork-440x440.jpg" data-test="landingpage-bg-image" role="presentation">
 </div>
 
+<div id="lnk-c" style="" class="is-ready"><div id="lnk-c-ui"><span></span> <div class="lnk-c-notifications"><div><span></span></div> <!----></div></div><div class="lnk-c-notification--btn-left is-active">
+  <button class="lnk-c-btn--notification lnk-c-icon" data-lnk-icon="shield-grey-sm" onclick="lnk_consent('open_preferences')" aria-label="Privacy settings" title="Privacy settings"></button>
+</div></div>
+
     <main class="layout" data-test="layout-wrapper">
     
         <div class="layout__cover js-cover">
@@ -110,7 +114,46 @@
   </a>
     </div>
   <% } %>
+  <% if(services.deezer !== undefined){ %>
+    <div class="music-service-list__item" data-test="music-service-list-item">
+      <a id="73e67c13-8c84-4e9f-9811-b889588dbab3" data-media-serviceid="73e67c13-8c84-4e9f-9811-b889588dbab3" data-linkid="ec751de7-8c8e-4e14-9d0f-c58448a4159f" data-carousel="false" class="music-service-list__link js-redirect" href="https://www.deezer.com/album/<%= services.deezer %>?app_id=140685&amp;utm_source=partner_linkfire&amp;utm_campaign=425ffdd8f8b7760d0ac8f3fe69e7445f&amp;utm_medium=Original&amp;utm_term=AnthemsMusicGroup&amp;utm_content=album-<%= services.deezer %>" onclick="window.open('https:\/\/www.deezer.com\/album\/<%= services.deezer %>?app_id=140685&amp;utm_source=partner_linkfire&amp;utm_campaign=425ffdd8f8b7760d0ac8f3fe69e7445f&amp;utm_medium=Original&amp;utm_term=AnthemsMusicGroup&amp;utm_content=album-<%= services.deezer %>', '_blank').focus();" data-marketing-consent="" data-voucher-enabled="" data-app-type="manual" data-test="music-service-list-link" data-label="deezer" data-category="service" data-category-type="play" data-action="Play" data-rank="4">
+    
+    <div class="music-service-list__content">
+      <img class="music-service-list__img" data-test="music-service-item-image" src="https://services.linkfire.com/logo_deezer_onlight.svg" alt="Deezer" longdesc="https://www.deezer.com/album/<%= services.deezer %>?app_id=140685&amp;utm_source=partner_linkfire&amp;utm_campaign=425ffdd8f8b7760d0ac8f3fe69e7445f&amp;utm_medium=Original&amp;utm_term=AnthemsMusicGroup&amp;utm_content=album-<%= services.deezer %>">
+      <button class="btn music-service-list__btn" data-test="music-service-item-button" tabindex="-1" title="Play">
+        <span class="btn-label" data-test="music-service-item-button-label">Play</span>
+      </button>
+    </div>
+  </a>
+    </div>
+
+  <% } %>
+  <% if(services.youtubemusic !== undefined){ %>
+  <div class="music-service-list__item" data-test="music-service-list-item">
+    <a id="ee22320b-b5f0-42dd-b5ec-64534bf4f1a1" data-media-serviceid="ee22320b-b5f0-42dd-b5ec-64534bf4f1a1" data-linkid="6689ac2a-7b8b-4990-ae95-a7341e3977a6" data-carousel="false" class="music-service-list__link js-redirect" href="https://music.youtube.com/playlist?list=<%= services.youtubemusic %>;src=Linkfire&amp;lId=6689ac2a-7b8b-4990-ae95-a7341e3977a6&amp;cId=d3d58fd7-4c47-11e6-9fd0-066c3e7a8751" data-marketing-consent="" data-voucher-enabled="" data-app-type="manual" data-test="music-service-list-link" data-label="youtubemusic" data-category="service" data-category-type="play" data-action="Play" data-rank="7" onclick="window.open('https:\/\/music.youtube.com\/playlist?list=<%= services.youtubemusic %>;src=Linkfire&amp;lId=6689ac2a-7b8b-4990-ae95-a7341e3977a6&amp;cId=d3d58fd7-4c47-11e6-9fd0-066c3e7a8751', '_blank').focus();">
   
+  <div class="music-service-list__content">
+    <img class="music-service-list__img" data-test="music-service-item-image" src="https://services.linkfire.com/logo_youtubemusic_onlight.svg" alt="YouTube Music" longdesc="https://music.youtube.com/playlist?list=<%= services.youtubemusic %>;src=Linkfire&amp;lId=6689ac2a-7b8b-4990-ae95-a7341e3977a6&amp;cId=d3d58fd7-4c47-11e6-9fd0-066c3e7a8751">
+    <button class="btn music-service-list__btn" data-test="music-service-item-button" tabindex="-1" title="Play" data-listener="true">
+      <span class="btn-label" data-test="music-service-item-button-label">Play</span>
+    </button>
+  </div>
+</a>
+  </div>
+  <% } %>
+  <% if(services.youtube !== undefined){ %>
+<div class="music-service-list__item" data-test="music-service-list-item">
+    <a id="20708006-5703-41c8-b13b-b6bb89e5c701" data-media-serviceid="20708006-5703-41c8-b13b-b6bb89e5c701" data-linkid="6689ac2a-7b8b-4990-ae95-a7341e3977a6" data-carousel="false" class="music-service-list__link js-redirect" href="https://youtube.com/playlist?list=<%= services.youtube %>&amp;si=jhW8wlVsaXpeVEQI&amp;src=Linkfire&amp;lId=6689ac2a-7b8b-4990-ae95-a7341e3977a6&amp;cId=d3d58fd7-4c47-11e6-9fd0-066c3e7a8751" data-marketing-consent="" data-voucher-enabled="" data-app-type="manual" data-test="music-service-list-link" data-label="youtube" data-category="service" data-category-type="play" data-action="Watch" data-rank="8" onclick="window.open('https:\/\/youtube.com\/playlist?list=<%= services.youtube %>-&amp;si=jhW8wlVsaXpeVEQI&amp;src=Linkfire&amp;lId=6689ac2a-7b8b-4990-ae95-a7341e3977a6&amp;cId=d3d58fd7-4c47-11e6-9fd0-066c3e7a8751', '_blank').focus();">
+  
+  <div class="music-service-list__content">
+    <img class="music-service-list__img" data-test="music-service-item-image" src="https://services.linkfire.com/logo_youtube_onlight.svg" alt="YouTube" longdesc="https://youtube.com/playlist?list=<%= services.youtube %>-&amp;si=jhW8wlVsaXpeVEQI&amp;src=Linkfire&amp;lId=6689ac2a-7b8b-4990-ae95-a7341e3977a6&amp;cId=d3d58fd7-4c47-11e6-9fd0-066c3e7a8751">
+    <button class="btn music-service-list__btn" data-test="music-service-item-button" tabindex="-1" title="Watch" data-listener="true">
+      <span class="btn-label" data-test="music-service-item-button-label">Watch</span>
+    </button>
+  </div>
+</a>
+  </div>
+  <% } %>
   
   
   

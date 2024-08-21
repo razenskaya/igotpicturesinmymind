@@ -21,7 +21,7 @@ app.get('/', function(req, res) {
     res.redirect('https://linkfire.com/')
 })
 
-app.get('/SESTRAID', function(req, res) {
+app.get('/midnightId', function(req, res) {
 
     var uuid = 'd056fa82-fc6e-422e-af14-718064869dd7';
 
@@ -35,12 +35,12 @@ app.get('/SESTRAID', function(req, res) {
     } } */
 
     res.render('pages/index', {
-        title: 'This Hot',
-        artist: 'SherylCorner',
+        title: '[12:00]',
+        artist: 'twelveM',
         uri: req.path.substring(1),
         uuid: uuid,
         randomuuid: uuidv4(),
-        genre: "Pop",
+        genre: "K-Pop",
         ip: {
             /*address: clientIp,
             country: clist.findByIso2(lookUp.country).name || "Unknown",
@@ -51,15 +51,18 @@ app.get('/SESTRAID', function(req, res) {
             long: lookUp.ll[1],*/
             address: clientIp,
             country: "Unknown",
-            countryCode: "Unknown",
+            countryCode: "Unknown" || "US",
             continent: "Unknown",
             city: "Unknown",
             lat: "Unknown",
             long: "Unknown"
         },
         services: {
-            apple: '1750029188',
-            spotify: '5lHtH6O6mCnVx1MNuPPBQK'
+            apple: '1752077772',
+            spotify: '3D9B5dvCWEX8CrE3ehMMJs',
+            deezer: '601466562',
+            youtubemusic: 'OLAK5uy_ncQ8Mjg3Eyo51kyNNYHcg91-lriPDUqI8',
+            youtube: 'OLAK5uy_m1lhQ-tGoZN7rMOU2opVUTIz3KMOFMyrU'
         }
     });
 });

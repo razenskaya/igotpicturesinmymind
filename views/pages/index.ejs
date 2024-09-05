@@ -79,17 +79,6 @@
   
   <% if(services.apple !== undefined){ %>
   <div class="music-service-list__item" data-test="music-service-list-item">
-    <a id="b2a0e6eb-620f-473f-a6ec-f9397dd2d204" data-media-serviceid="b2a0e6eb-620f-473f-a6ec-f9397dd2d204" data-linkid="6689ac2a-7b8b-4990-ae95-a7341e3977a6" data-carousel="false" class="music-service-list__link js-redirect" href="https://music.apple.com/<%= ip.countryCode %>/album/<%= services.apple %>" data-marketing-consent="" data-voucher-enabled="" data-app-type="manual" data-test="music-service-list-link" data-label="itunes" data-category="service" data-category-type="download" data-action="Download" data-rank="5" onclick="window.open('https:\/\/music.apple.com\/<%= ip.countryCode %>\/album\/<%= services.apple %>', '_blank').focus();">
-  
-  <div class="music-service-list__content">
-    <img class="music-service-list__img" data-test="music-service-item-image" src="https://services.linkfire.com/logo_itunes_onlight.svg" alt="iTunes" longdesc="https://music.apple.com/<%= ip.countryCode %>/album/<%= services.apple %>">
-    <button class="btn music-service-list__btn" data-test="music-service-item-button" tabindex="-1" title="Download" data-listener="true">
-      <span class="btn-label" data-test="music-service-item-button-label">Download</span>
-    </button>
-  </div>
-</a>
-  </div>
-  <div class="music-service-list__item" data-test="music-service-list-item">
     <a id="8f82cc1c-a2c3-4438-8a29-285983518182" data-media-serviceid="8f82cc1c-a2c3-4438-8a29-285983518182" data-linkid="ec751de7-8c8e-4e14-9d0f-c58448a4159f" data-carousel="false" class="music-service-list__link js-redirect" href="https://music.apple.com/<%= ip.countryCode %>/album/<%= services.apple %>" data-marketing-consent="" data-voucher-enabled="" data-app-type="manual" data-test="music-service-list-link" data-label="applemusic" data-category="service" data-category-type="play" data-action="Play" data-rank="1" onclick="window.open('https:\/\/music.apple.com\/<%= ip.countryCode %>\/album\/<%= services.apple %>', '_blank').focus();">
   
   <div class="music-service-list__content">
@@ -101,6 +90,45 @@
 </a>
   </div>
   <% } %>
+  <% if(merch.enabled === true){ %>
+    <div class="music-service-list__item" data-test="music-service-list-item">
+      <div class="music-service-list__link merchandise-carousel__link" id="663ba56f-c160-47aa-b4e3-6f9402e7238d" data-media-serviceid="663ba56f-c160-47aa-b4e3-6f9402e7238d" data-linkid="596fe417-0069-4b55-8ab9-59362baeb456" data-marketing-consent="" data-carousel-provider="AMGSpotify" data-app-type="manual" data-label="shopifycarousel" data-category="service" data-category-type="goto" data-rank="2" data-carousel="true">
+   <div class="merchandise-carousel">
+      <div class="merchandise-carousel__header">
+        <span class="merchandise-carousel__header-icon"></span>
+        <span class="merchandise-carousel__header-title">Official Merchandise</span>
+      </div>
+      <ul id="carouselScrollContainer" class="merchandise-carousel__product-list">
+        <% Object.keys(merch.products).forEach(function(key) { %>
+                      <li class="merchandise-carousel__product-list-item" title="<%= merch.products[key].name %>">
+              <a class="merchandise-carousel__product-list-item-link js-redirect" data-is-product="true" data-product-name="<%= merch.products[key].name %>" data-product-price="<%= merch.products[key].price %>" data-product-currency="USD" data-product-sortorder="0" data-product-type="Music" data-product-url="<%= merch.products[key].url %>?utm_medium=direct&amp;utm_board=anthems-mg&amp;utm_country=CH&amp;utm_linkurl=atms.world&amp;utm_merch_carousel=linkfire&amp;" data-label="shopifycarousel" data-action="Go to" data-category-type="goto" data-media-serviceid="663ba56f-c160-47aa-b4e3-6f9402e7238d" data-marketing-consent="" data-app-type="manual" data-category="service" data-linkid="596fe417-0069-4b55-8ab9-59362baeb456" data-rank="2" data-voucher-enabled="" href="<%= merch.products[key].url %>?utm_medium=direct&amp;utm_board=anthems-mg&amp;utm_country=CH&amp;utm_linkurl=atms.world&amp;utm_merch_carousel=linkfire&amp;" target="_blank" onclick="window.open('<%= merch.products[key].url%>?utm_medium=direct&amp;utm_board=anthems-mg&amp;utm_country=CH&amp;utm_linkurl=atms.world&amp;utm_merch_carousel=linkfire&amp;')">
+                <div class="merchandise-carousel__product-list-item-image" style="background-image: url('<%= merch.products[key].artwork %>')">
+                </div>
+                <div class="merchandise-carousel__product-list-item-name">
+                  <%= merch.products[key].name %>                  </div>
+                <div data-currency="USD" data-price="<%= merch.products[key].price %>" class="merchandise-carousel__product-list-item-price"><%= merch.products[key].price %>&nbsp;$</div>
+              </a>
+            </li>
+            <% }); %>
+            </ul>
+    </div>
+  </div>
+    </div>
+  <% } %>
+  <% if(services.apple !== undefined){ %>
+  <div class="music-service-list__item" data-test="music-service-list-item">
+    <a id="b2a0e6eb-620f-473f-a6ec-f9397dd2d204" data-media-serviceid="b2a0e6eb-620f-473f-a6ec-f9397dd2d204" data-linkid="6689ac2a-7b8b-4990-ae95-a7341e3977a6" data-carousel="false" class="music-service-list__link js-redirect" href="https://music.apple.com/<%= ip.countryCode %>/album/<%= services.apple %>" data-marketing-consent="" data-voucher-enabled="" data-app-type="manual" data-test="music-service-list-link" data-label="itunes" data-category="service" data-category-type="download" data-action="Download" data-rank="5" onclick="window.open('https:\/\/music.apple.com\/<%= ip.countryCode %>\/album\/<%= services.apple %>', '_blank').focus();">
+  
+  <div class="music-service-list__content">
+    <img class="music-service-list__img" data-test="music-service-item-image" src="https://services.linkfire.com/logo_itunes_onlight.svg" alt="iTunes" longdesc="https://music.apple.com/<%= ip.countryCode %>/album/<%= services.apple %>">
+    <button class="btn music-service-list__btn" data-test="music-service-item-button" tabindex="-1" title="Download" data-listener="true">
+      <span class="btn-label" data-test="music-service-item-button-label">Download</span>
+    </button>
+  </div>
+</a>
+  </div>
+  <% } %>
+
   <% if(services.spotify !== undefined){ %>
     <div class="music-service-list__item" data-test="music-service-list-item">
       <a id="7a586f9f-9e2d-4383-83cc-b2aa5bd1798d" data-media-serviceid="7a586f9f-9e2d-4383-83cc-b2aa5bd1798d" data-linkid="a1073848-dbe9-4d00-b2fa-509c08e2b6bf" data-carousel="false" class="music-service-list__link js-redirect" href="https://open.spotify.com/album/<%= services.spotify %>" data-uri="spotify://album/<%= services.spotify %>" data-marketing-consent="" data-voucher-enabled="" data-app-type="manual" data-test="music-service-list-link" data-label="spotify" data-category="service" data-category-type="play" data-action="Играть" data-rank="2"  onclick="window.open('https:\/\/open.spotify.com\/album\/<%= services.spotify %>?go=1', '_blank').focus();">
@@ -149,6 +177,32 @@
     <img class="music-service-list__img" data-test="music-service-item-image" src="https://services.linkfire.com/logo_youtube_onlight.svg" alt="YouTube" longdesc="https://youtube.com/playlist?list=<%= services.youtube %>-&amp;si=jhW8wlVsaXpeVEQI&amp;src=Linkfire&amp;lId=6689ac2a-7b8b-4990-ae95-a7341e3977a6&amp;cId=d3d58fd7-4c47-11e6-9fd0-066c3e7a8751">
     <button class="btn music-service-list__btn" data-test="music-service-item-button" tabindex="-1" title="Watch" data-listener="true">
       <span class="btn-label" data-test="music-service-item-button-label">Watch</span>
+    </button>
+  </div>
+</a>
+  </div>
+  <% } %>
+  <% if(services.pandora !== undefined){ %>
+  <div class="music-service-list__item" data-test="music-service-list-item">
+    <a id="d2ea39e5-f40d-43a3-97cc-256abb1fe833" data-media-serviceid="d2ea39e5-f40d-43a3-97cc-256abb1fe833" data-linkid="596fe417-0069-4b55-8ab9-59362baeb456" data-carousel="false" class="music-service-list__link js-redirect" href="https://pandora.app.link/?$desktop_url=https%3A%2F%2Fwww.pandora.com%2Fartist%2F<%= artist %>%2F<%= title %>%2А<%= services.pandora %>&$~channel=Partner%20Catalog%20Search%20API%20-%20Linkfire&part=lf&corr=ffd8c281ed50e7e590e485467061b1ba&partnerName=Linkfire&~campaign=Partner%20Customer%20ID%20-%20596fe417-0069-4b55-8ab9-59362baeb456&sharedId=ffd8c281ed50e7e590e485467061b1ba" data-marketing-consent="" data-voucher-enabled="" data-app-type="manual" data-test="music-service-list-link" data-label="pandora" data-category="service" data-category-type="play" data-action="Play" onclick="window.open('https://pandora.app.link/?$desktop_url=https%3A%2F%2Fwww.pandora.com%2Fartist%2F<%= artist %>%2F<%= title %>%2А<%= services.pandora %>&$~channel=Partner%20Catalog%20Search%20API%20-%20Linkfire&part=lf&corr=ffd8c281ed50e7e590e485467061b1ba&partnerName=Linkfire&~campaign=Partner%20Customer%20ID%20-%20596fe417-0069-4b55-8ab9-59362baeb456&sharedId=ffd8c281ed50e7e590e485467061b1ba')" data-rank="6">
+  
+  <div class="music-service-list__content">
+    <img class="music-service-list__img" data-test="music-service-item-image" src="https://services.linkfire.com/logo_pandora_onlight.svg" alt="Pandora" longdesc="https://pandora.app.link/?$desktop_url=https%3A%2F%2Fwww.pandora.com%2Fartist%2F<%= artist %>%2F<%= title %>%2А<%= services.pandora %>&$~channel=Partner%20Catalog%20Search%20API%20-%20Linkfire&part=lf&corr=ffd8c281ed50e7e590e485467061b1ba&partnerName=Linkfire&~campaign=Partner%20Customer%20ID%20-%20596fe417-0069-4b55-8ab9-59362baeb456&sharedId=ffd8c281ed50e7e590e485467061b1ba">
+    <button class="btn music-service-list__btn" data-test="music-service-item-button" tabindex="-1" title="Play" data-listener="true">
+      <span class="btn-label" data-test="music-service-item-button-label">Play</span>
+    </button>
+  </div>
+</a>
+  </div>
+  <% } %>
+  <% if(services.amazon !== undefined){ %>
+  <div class="music-service-list__item" data-test="music-service-list-item">
+    <a id="18976fd2-4365-49b5-86bc-f1e93d8465db" data-media-serviceid="18976fd2-4365-49b5-86bc-f1e93d8465db" data-linkid="596fe417-0069-4b55-8ab9-59362baeb456" data-carousel="false" class="music-service-list__link js-redirect" href="https://music.amazon.com/albums/<%= services.amazon %>/?trackAsin=B0D75KXWQ4&amp;do=play&amp;tag=linkfiregen&amp;ie=UTF8&amp;linkCode=as2&amp;ascsubtag=ffd8c281ed50e7e590e485467061b1ba&amp;ref=dmm_acq_soc_us_u_lfire_lp_x_ffd8c281ed50e7e590e485467061b1ba" data-marketing-consent="" data-voucher-enabled="" data-app-type="manual" data-test="music-service-list-link" data-label="amazonmusic" data-category="service" data-category-type="play" data-action="Play" data-rank="3">
+  
+  <div class="music-service-list__content">
+    <img class="music-service-list__img" data-test="music-service-item-image" src="https://services.linkfire.com/logo_amazonmusic_onlight.svg" alt="Amazon Music (Streaming)" longdesc="https://music.amazon.com/albums/<%= services.amazon %>/?trackAsin=B0D75KXWQ4&amp;do=play&amp;tag=linkfiregen&amp;ie=UTF8&amp;linkCode=as2&amp;ascsubtag=ffd8c281ed50e7e590e485467061b1ba&amp;ref=dmm_acq_soc_us_u_lfire_lp_x_ffd8c281ed50e7e590e485467061b1ba" onclick="window.open('https://music.amazon.com/albums/<%= services.amazon %>/?trackAsin=B0D75KXWQ4&amp;do=play&amp;tag=linkfiregen&amp;ie=UTF8&amp;linkCode=as2&amp;ascsubtag=ffd8c281ed50e7e590e485467061b1ba&amp;ref=dmm_acq_soc_us_u_lfire_lp_x_ffd8c281ed50e7e590e485467061b1ba')">
+    <button class="btn music-service-list__btn" data-test="music-service-item-button" tabindex="-1" title="Play" data-listener="true">
+      <span class="btn-label" data-test="music-service-item-button-label">Play</span>
     </button>
   </div>
 </a>

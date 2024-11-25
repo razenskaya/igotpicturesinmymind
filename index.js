@@ -92,6 +92,78 @@ app.get('/hofsara:letters([a-zA-Z]{2})?', function(req, res) {
     });
 });
 
+app.get('/kimlip:letters([a-zA-Z]{2})?', function(req, res) {
+
+    var uuid = 'e519344c-2a28-4dff-afa6-b25730fa6af4';
+
+    var clientIp = req.clientIp;
+    var lookUp = geoip.lookup(clientIp);
+
+   /* function finishcity() { if (lookUp.city) {
+        return lookUp.city;
+    } else {
+       return "Unknown";
+    } } */
+
+    res.render('pages/index copy', {
+        title: 'Kim Lip',
+        artist: 'twelveM, whitechoc',
+        newlink: true,
+        uri: req.path.substring(1),
+        uuid: uuid,
+        randomuuid: uuidv4(),
+        genre: "Pop",
+        ip: {
+            /*address: clientIp,
+            country: clist.findByIso2(lookUp.country).name || "Unknown",
+            countryCode: lookUp.country,
+            continent: clist.findByIso2(lookUp.country).continent,
+            city: finishcity(),
+            lat: lookUp.ll[0],
+            long: lookUp.ll[1],*/
+            address: clientIp,
+            country: "Unknown",
+            countryCode: "Unknown" || "US",
+            continent: "Unknown",
+            city: "Unknown",
+            lat: "Unknown",
+            long: "Unknown"
+        },
+        services: {
+            sublabel: ' / lunatic recordings',
+            upc: '7316479210165',
+            apple: '1781116472',
+            spotify: '2Ruv4UlUDPWchHGvyCjQPr',
+            deezer: '673584431',
+            tidal: '401163186',
+            youtubemusic: 'OLAK5uy_me19QErO7sBnwy4jiDL65_wHQPLgLoaog',
+            //youtubevideo: 'OLAK5uy_m1lhQ-tGoZN7rMOU2opVUTIz3KMOFMyrU',
+            //mts: '33474742',
+            //yandex: '33474742',
+            //vk: '-2000060307_22060307_83c13bf84e465d14fd',
+            //zvuk: '35443704'
+            amazon: 'B0DNRTW48N',
+            
+        },
+        tracks: {
+          _1: {
+            track: 'only 1 i love'
+          }
+        },
+        merch: {
+            enabled: true,
+            products: {
+                _1: {
+                    name: `[+ +] - debut album CD`,
+                    price: 32.99,
+                    url: 'https://store.atms.world/xo',
+                    artwork: '/items/1/artwork-110x110.webp'
+                }
+            }
+        }
+    });
+});
+
 app.get('/easyfun:letters([a-zA-Z]{2})?', function(req, res) {
 
     var uuid = '427d1efd-e744-4a41-8f15-ed5d8bfae11b';

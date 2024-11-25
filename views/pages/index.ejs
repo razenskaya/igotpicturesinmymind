@@ -6,7 +6,11 @@
 <meta http-equiv="x-ua-compatible" content="ie=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<title><%= title %></title>
+<% if(newlink !== undefined){ %> 
+  <title><%= title %></title>
+<% } else { %>
+  <title><%= title %></title>
+  <% } %>
 <meta name="description" content="Listen to <%= title %> by <%= artist %>.">
 <link rel="canonical" href="https://atms.world/<%= uri %>">
 
@@ -20,6 +24,487 @@
     
     <img src="/medialinks/images/<%= uuid %>/artwork-440x440.jpg" data-test="landingpage-bg-image" role="presentation">
 </div>
+
+<div id="lnk-ad-header" class="ad__container--header ad__container--header-native ad__container--header-visible">
+  <script>
+    ((w, d) => {
+      const container = d.querySelector('.ad__container--header');
+
+      //#region Common for both GAM and Native
+      // Event listener for header ad custom events
+      function onHeaderAdEvent({ detail }) {
+        if (detail) {
+          try {
+            switch (detail) {
+              case 'play': {
+                return setHeaderAdVisibility(false);
+              }
+              case 'pause':
+              case 'end': {
+                return setHeaderAdVisibility(true);
+              }
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        }
+      }
+
+      // Animates the header ad container for the Snackbar ad.
+      function setHeaderAdVisibility(isVisible) {
+        try {
+          container.classList[ isVisible ? 'add' : 'remove' ]('ad__container--header-visible');
+        } catch {
+          console.error(error);
+        }
+      }
+
+      // Expands/contracts the header ad container for the artist notification ad.
+      function setHeaderFullscreen(isFullscreen) {
+        try {
+          if (isFullscreen) {
+            return container.classList.add('ad__container--fullscreen');
+          }
+
+          return setTimeout(() => container.classList.remove('ad__container--fullscreen'), 100);
+        } catch {
+          console.error(error);
+        }
+      }
+
+      function appendVisitorTokenToUrl(url) {
+        const wrappedUrl = new URL(url);
+
+        wrappedUrl.searchParams.append('visitor_token', window.linkfire.tracking.parameters.visitorToken);
+
+        return wrappedUrl.href
+      }
+
+      function isConsentDialogActive() {
+        const activeBackdrop = d.querySelector('#lnk-c .is-active .lnk-c-backdrop');
+
+        return !!activeBackdrop;
+      }
+
+      function isOpfModalShown() {
+        if (w.linkfire.placements && w.linkfire.placements.onePointFiveClick) {
+          return w.linkfire.placements.onePointFiveClick.isShown
+        }
+
+        return false;
+      }
+
+      function areThereOtherPopupsOpen() {
+        return isConsentDialogActive() || isOpfModalShown()
+      }
+      //#endregion
+
+      //#region GAM Handler
+      // Event listener for unit messages
+      function onMessageEvent({ data, source }) {
+        // message not from header unit are ignored
+        if(!source.name.includes('Header')) return;
+
+        if (data) {
+          try {
+            switch (data) {
+              case 'open': {
+                return setHeaderFullscreen(true);
+              }
+              case 'close': {
+                return setHeaderFullscreen(false);
+              }
+            }
+          } catch (error) {
+            console.error(error);
+          }
+        }
+      }
+      function updateUnitCTAUrl(unitContainer) {
+        const anRootVue = unitContainer.parentElement.__vue__;
+
+        if (anRootVue) {
+          const [ gamPrefix, encodedD2s ] = anRootVue.data.actionUrl.split('adurl=')
+
+          const originalURL = decodeURIComponent(encodedD2s ? encodedD2s : gamPrefix)
+          const wrappedUrl = appendVisitorTokenToUrl(originalURL)
+
+          anRootVue.data.actionUrl = encodedD2s ? `${gamPrefix}adurl=${encodeURIComponent(wrappedUrl)}` : wrappedUrl;
+        }
+      }
+      //#endregion
+
+      //#region Native handler
+      function onArtistNotificationMessage(event) {
+        if (event.data.adUnitsEvent && event.data.adUnitsEvent.unit === "ArtistNotificationSong") {
+          const {adUnitsEvent: {type, data}} = event.data
+
+          switch (type) {
+            case 'onContentAction': {
+              // track click through
+              const event = w.linkfire.nativeAd.tracking.EVENTS.ans.clicked
+              w.linkfire.nativeAd.tracking.registerNativeAdEvent("ArtistNotificationSong", event)
+
+              w.open(appendVisitorTokenToUrl(data.actionUrl), '_blank')
+              break;
+            }
+            case 'onToogleModal': {
+              if (data.open) {
+                // ensure tracking is registered differently from the usual flow
+                if (data.timedOpen) {
+                  // check that no other popup is open
+                  if (w.linkfire.placementsHelpers.areThereAnyPopupsOpen() ||
+                      !w.linkfire.placements.artistNotificationSong.timedOpen) return
+
+                  w.linkfire.placements.artistNotificationSong.targeting.targetAdCopy.timedOpen = true;
+                }
+
+                if (w.linkfire && w.linkfire.nativeAd && w.linkfire.nativeAd.tracking) {
+                  const event = w.linkfire.nativeAd.tracking.EVENTS.ans.opened
+                  w.linkfire.nativeAd.tracking.registerNativeAdEvent("ArtistNotificationSong", event)
+                } else {
+                  d.addEventListener('DOMContentLoaded', () => {
+                    const event = w.linkfire.nativeAd.tracking.EVENTS.ans.opened
+                    w.linkfire.nativeAd.tracking.registerNativeAdEvent("ArtistNotificationSong", event)
+                  })
+                }
+                setTimeout(() => d.dispatchEvent(new CustomEvent('prioritize-ads-popup')), data.timedOpen ? 0 : 500)
+              }
+
+              setHeaderFullscreen(data.open)
+
+              if (data.timedOpen) {
+                w.postMessage({RedirectorEvent: {
+                  unit: 'ArtistNotificationSong',
+                  type: 'confirmToggleModal'
+                }}, '*')
+              }
+            }
+            default:
+              break;
+          }
+        }
+      }
+      //#endregion
+
+      try {
+
+                //#region NATIVE HANDLER
+        // Displayes the header ad after a 2s timeout for the widget player to have loaded beforehand.
+        w.setTimeout(() => setHeaderAdVisibility(true), 2000);
+
+        container.addEventListener('header-ad:visibility', onHeaderAdEvent);
+
+        w.addEventListener('message', onArtistNotificationMessage)
+        //#endregion
+
+        
+
+      } catch (error) {
+        console.error(error);
+      }
+    })(window, document);
+  </script>
+  <script src="https://static.assetlab.io/redirector-prod/3.232.0/placement-helpers.js"></script>
+
+      <div data-lnk-placement="header" data-lnk-placement-service-id="0000000001" data-test="unit-native--header">
+  <div id="0000000001"><div class="an size-300X250" data-advertiser="apple-music" style="--modal-width:300px;--modal-height:250px;" data-design-iteration="default">
+  <div class="button__container">
+  <div class="notification__button top-right" style="background-image: url(https://static.assetlab.io/admate/resources/images/unitcopy/artist-notification/applemusic/logo-apple-music.png);">
+    <div class="button__badge top-right">
+  </div>
+</div>
+
+<style>
+.button__container {
+  --size: 48px;
+  --text-font-size: 12px;
+
+  --button-border-radius: var(--size);
+  --button-border-width: 4px;
+  --button-height: var(--size);
+  --button-width: var(--size);
+  --button-margin: 16px;
+
+  --color-white: rgb(255, 255, 255);
+  --color-shadow: rgba(0, 0, 0, 0.2);
+  --color-red: rgb(255, 88, 88);
+  --color-green: #0DC587;
+  --color-artist: rgb(157, 157, 157);
+  --color-text: rgb(40, 44, 54);
+
+  --font-custom: 'IBM Plex Sans';
+  --font-fallback: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-family: var(--font-custom), var(--font-fallback);
+
+  position: relative;
+}
+
+.notification__button {
+  background-color: var(--color-white);
+  background-position: center;
+  background-size: cover;
+  border-radius: var(--button-border-radius);
+  border: var(--button-border-width) solid var(--color-white);
+  box-shadow: 0 2px 4px 0 var(--color-shadow);
+  cursor: pointer;
+  display: inline-block;
+  height: var(--button-height);
+  margin: var(--button-margin);
+  position: absolute;
+  transform: scale(1);
+  transition: transform 0.1s cubic-bezier(0.46, 0.03, 0.52, 0.96);
+  width: var(--button-width);
+  z-index: 1;
+}
+
+.button__badge {
+  animation-direction: alternate;
+  animation-duration: 0.5s;
+  animation-iteration-count: infinite;
+  animation-name: pulse;
+  animation-timing-function: ease-in-out;
+  background-color: var(--color-white);
+  border-radius: 10px;
+  border: 5px solid var(--color-green);
+  height: 6px;
+  position: absolute;
+  width: 6px;
+}
+
+.button--active {
+  transform: scale(0.8);
+  transition: all 0.1s cubic-bezier(0.46, 0.03, 0.52, 0.96);
+}
+
+.top-right {
+  right: -5px;
+  top: -5px;
+}
+
+.bottom-right {
+  right: -5px;
+  bottom: -5px;
+}
+
+.teaser.teaser--1 {
+  background: var(--color-white);
+  border-radius: 7px 7px 0px;
+  box-shadow: 0px 0px 9px 0px var(--color-shadow);
+  padding: 10px;
+  position: absolute;
+  right: 80px;
+  top: 18px;
+  transform-origin: bottom right;
+  transform: scale(0);
+  transition: transform 0.5s ease-in;
+}
+
+.teaser.teaser--1::after {
+  --size: 16px;
+  --corner: calc(var(--size) / 2);
+
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTS0yLjE5IDIwaDE2QzQuNjIzIDE0LjYuMDI5IDcuOTMzLjAyOSAwTC0yLjE5IDIweiIgZmlsbD0iI0ZGRiIgZmlsbC1ydWxlPSJldmVub2RkIi8+PC9zdmc+");
+  background-repeat: no-repeat;
+  background-size: cover;
+  bottom: 0px;
+  content: "";
+  display: block;
+  height: 20px;
+  position: absolute;
+  right: -16px;
+  width: 16px;
+}
+
+.teaser.teaser--1.open {
+  transform: scale(1);
+  transition: transform 0.5s ease-in;
+}
+
+.teaser.teaser--1 .teaser__artist,
+.teaser.teaser--1 .teaser__text {
+  display: block;
+  font-family: var(--font-family);
+}
+
+.teaser.teaser--1 .teaser__artist {
+  color: var(--color-artist);
+  font-size: 10px;
+  font-weight: 500;
+  margin-bottom: 1px;
+  text-transform: uppercase;
+}
+
+.teaser.teaser--1 .teaser__text {
+  color: var(--color-text);
+  font-size: var(--text-font-size);
+  font-weight: 600;
+}
+
+.notification__button--teaser-2 {
+  right: 0;
+  top: 0;
+  transition: box-shadow 0.5s ease-in;
+}
+
+.teaser.teaser--2 {
+  --mobile-width: 3.5rem;
+  --desktop-width: 56px;
+
+  align-items: center;
+  background-color: var(--color-white);
+  border-radius: var(--button-width);
+  box-shadow: 0px 0px 9px 0px var(--color-shadow);
+  display: flex;
+  height: 56px;
+  margin: 16px;
+  min-width: var(--mobile-width);
+  position: absolute;
+  right: 0;
+  transition: all 0.5s ease-in;
+  width: var(--mobile-width);
+}
+
+.teaser.teaser--2 .teaser__text {
+  color: var(--color-text);
+  display: none;
+  font-family: var(--font-family);
+  font-size: var(--text-font-size);
+  font-weight: 500;
+  opacity: 0;
+  padding-left: 22px;
+  padding-right: 8px;
+  transition: opacity 0.2s ease-in;
+}
+
+.teaser.teaser--2.open {
+  --mobile-width: 12rem;
+  --desktop-width: 185px;
+
+  transition: all 0.5s ease-in;
+  min-width: var(--mobile-width);
+  width: var(--mobile-width);
+}
+
+.teaser.teaser--2.open + .notification__button {
+  transition: box-shadow 0.5s ease-in;
+  box-shadow: none;
+}
+
+.teaser.teaser--2.open > .teaser__left {
+  align-items: center;
+  border-radius: var(--button-width) 0 0 var(--button-width);
+  display: flex;
+  flex: 0.7;
+}
+
+
+@media screen and (min-width: 580px) {
+  .notification__button.top-right {
+    right: calc(50% - 175px);
+  }
+
+  .teaser.teaser--1 {
+    cursor: pointer;
+    right: calc(50% - 95px);
+  }
+
+  .teaser.teaser--2 {
+    cursor: pointer;
+    min-width: var(--desktop-width);
+    right: calc(50% - 175px);
+    width: var(--desktop-width);
+  }
+
+  .teaser.teaser--2.open {
+    cursor: pointer;
+    min-width: var(--desktop-width);
+    right: calc(50% - 175px);
+    width: var(--desktop-width);
+  }
+}
+
+@keyframes pulse {
+  from {
+    transform: scale(0.8);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+.exit-pre-click {
+  display: none;
+}
+.exit-post-click {
+  display: block;
+}
+
+.exit-post-click.button--active {
+  display: none;
+}
+</style>
+
+
+<div class="container">
+  <div class="modal">
+    <div class="modal__close"></div>
+        <div class="core__unit" data-design-iteration="default" style="--modal-width:300px;--modal-height:250px;">
+  <div class="modal__content__container an__modal--v1 modal__wrapper">
+    <div class="modal__header" style="background-image: url(https://static.assetlab.io/admate/resources/images/unitcopy/artist-notification/applemusic/header-apple-music.png)"></div>
+<div class="modal__artist" style="background-image: url(https://static.assetlab.io/admate/resources/images/unitcopy/artist-notification/applemusic/logo-apple-music.png)"></div>
+<div class="modal__content">
+  <div class="modal__content__title_subtitle_container">
+    <p class="content__title title--large">
+      100 миллионов треков без рекламы
+    </p>
+    <p class="content__subtitle subtitle--large">
+      Слушать эксклюзивные подборки от музыкальных редакторов Apple Music.
+    </p>
+  </div>
+  <a href="#" class="content__action action--apple-music">
+    Слушать прямо сейчас
+  </a>
+  <div class="content__terms">
+    <span class="terms__text">
+      Действуют условия
+    </span>
+  </div>
+</div>
+
+    </div>
+</div>
+
+
+  </div>
+</div>
+</div></div></div>
+</div>
+
+<script>
+  (w => {
+    document.addEventListener('DOMContentLoaded', () => {
+      w.linkfireUnits &&
+          w.linkfireUnits.useArtistNotificationSong(
+            Object.assign( {"teaser":null,"artist":null,"timedOpen":7,"designIteration":"default","poster":"https:\/\/static.assetlab.io\/admate\/resources\/images\/unitcopy\/artist-notification\/applemusic\/tv-plus-poster.png","actionLabel":"\u0421\u043b\u0443\u0448\u0430\u0442\u044c \u043f\u0440\u044f\u043c\u043e \u0441\u0435\u0439\u0447\u0430\u0441","actionUrl":"https:\/\/applemusicmate.lnk.to\/Z9Q57B","header":"https:\/\/static.assetlab.io\/admate\/resources\/images\/unitcopy\/artist-notification\/applemusic\/header-apple-music.png","profile":"https:\/\/static.assetlab.io\/admate\/resources\/images\/unitcopy\/artist-notification\/applemusic\/logo-apple-music.png","size":"300X250","subtitle":"\u0421\u043b\u0443\u0448\u0430\u0442\u044c \u044d\u043a\u0441\u043a\u043b\u044e\u0437\u0438\u0432\u043d\u044b\u0435 \u043f\u043e\u0434\u0431\u043e\u0440\u043a\u0438 \u043e\u0442 \u043c\u0443\u0437\u044b\u043a\u0430\u043b\u044c\u043d\u044b\u0445 \u0440\u0435\u0434\u0430\u043a\u0442\u043e\u0440\u043e\u0432 Apple Music.","subtitleWidth":"large","terms":"\u0414\u0435\u0439\u0441\u0442\u0432\u0443\u044e\u0442 \u0443\u0441\u043b\u043e\u0432\u0438\u044f","title":"100 \u043c\u0438\u043b\u043b\u0438\u043e\u043d\u043e\u0432 \u0442\u0440\u0435\u043a\u043e\u0432 \u0431\u0435\u0437 \u0440\u0435\u043a\u043b\u0430\u043c\u044b","titleWidth":"large","type":"noteaser","id":"64ec1968-a47f-406c-89eb-d8e490454e85","name":"Apple Music - CSAN - Russian - Default","startDate":null,"endDate":null,"geoTargeting":["RU","BY","KG","KZ","TJ","UZ"],"deviceTargeting":["Apple Devices"],"blockedGeoTargeting":[],"blockedDeviceTargeting":[]} || {}, {service: 'apple-music' } ),
+          '0000000001', '.music-service-list__item > a', 'Music'
+        )
+      const unitRoot = document.getElementById('0000000001')
+      if (unitRoot && unitRoot.querySelector('.button__container')) {
+        const event = w.linkfire.nativeAd.tracking.EVENTS.ans.impressions
+        w.linkfire.nativeAd.tracking.registerNativeAdEvent("ArtistNotificationSong", event)
+      }
+    });
+
+
+    //#region Post-Click (Exit) modal
+        //#endregion
+
+  }
+  )(window)
+</script>
+  </div>    
 
 <div id="lnk-c" style="" class="is-ready"><div id="lnk-c-ui"><span></span> <div class="lnk-c-notifications"><div><span></span></div> <!----></div></div><div class="lnk-c-notification--btn-left is-active">
   <button class="lnk-c-btn--notification lnk-c-icon" data-lnk-icon="shield-grey-sm" onclick="lnk_consent('open_preferences')" aria-label="Privacy settings" title="Privacy settings"></button>
@@ -48,7 +533,11 @@
         
             <a class="header__link" href="#music-services" title="Click to view services">
                 <h1 data-test="layout-header-title" class="header__title"><%= title %></h1>
-                                    <p data-test="layout-header-description" class="header__description"><%= artist %></p>
+                                    <p data-test="layout-header-description" class="header__description"><% if(newlink !== undefined){ %> 
+                                      Choose streaming service
+                                      <% } else { %>
+                                        <%= artist %>
+                                        <% } %></p>
                             </a>
         </header>
     </div>

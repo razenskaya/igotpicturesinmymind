@@ -11,6 +11,7 @@ const getClientIP = require('@loxjs/express-client-ip');
 const geoip       = require('geoip-lite');
 const clist       = require('country-list-js'); 
 const sharp       = require('sharp');
+const { trace } = require('console');
 
 const app = express()
 app.use(express.static('static'))
@@ -21,7 +22,7 @@ app.get('/', function(req, res) {
     res.redirect('https://linkfire.com/')
 })
 
-app.get('/midnighttt:letters([a-zA-Z]{2})?', function(req, res) {
+app.get('/hofsara:letters([a-zA-Z]{2})?', function(req, res) {
 
     var uuid = 'd056fa82-fc6e-422e-af14-718064869dd7';
 
@@ -34,13 +35,14 @@ app.get('/midnighttt:letters([a-zA-Z]{2})?', function(req, res) {
        return "Unknown";
     } } */
 
-    res.render('pages/index', {
-        title: '[12:00]',
-        artist: 'twelveM',
+    res.render('pages/index copy', {
+        title: 'EP1 (Miheeva with Sarra)',
+        artist: 'zetnica',
+        newlink: true,
         uri: req.path.substring(1),
         uuid: uuid,
         randomuuid: uuidv4(),
-        genre: "K-Pop",
+        genre: "Pop",
         ip: {
             /*address: clientIp,
             country: clist.findByIso2(lookUp.country).name || "Unknown",
@@ -58,14 +60,26 @@ app.get('/midnighttt:letters([a-zA-Z]{2})?', function(req, res) {
             long: "Unknown"
         },
         services: {
-            apple: '1752077772',
-            spotify: '3D9B5dvCWEX8CrE3ehMMJs',
-            deezer: '601466562',
-            youtubemusic: 'OLAK5uy_ncQ8Mjg3Eyo51kyNNYHcg91-lriPDUqI8',
-            youtube: 'OLAK5uy_m1lhQ-tGoZN7rMOU2opVUTIz3KMOFMyrU'
+            sublabel: ' / Cittale Records',
+            upc: '175207777212367',
+            apple: '1775579186',
+            spotify: '0NfodbDF4PDUByeodkXiIW',
+            //deezer: '601466562',
+            //youtubemusic: 'OLAK5uy_ncQ8Mjg3Eyo51kyNNYHcg91-lriPDUqI8',
+            //youtubevideo: 'OLAK5uy_m1lhQ-tGoZN7rMOU2opVUTIz3KMOFMyrU',
+            mts: '33474742',
+            yandex: '33474742',
+            vk: '-2000060307_22060307_83c13bf84e465d14fd',
+            zvuk: '35443704'
+            
+        },
+        tracks: {
+          _1: {
+            track: 'only 1 i love'
+          }
         },
         merch: {
-            enabled: true,
+            enabled: false,
             products: {
                 _1: {
                     name: `[+ +] - debut album CD`,

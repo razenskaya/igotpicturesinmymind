@@ -21,7 +21,7 @@ app.get('/', function(req, res) {
     res.redirect('https://linkfire.com/')
 })
 
-app.get('/midnight:letters([a-zA-Z]{2})?', function(req, res) {
+app.get('/midnighttt:letters([a-zA-Z]{2})?', function(req, res) {
 
     var uuid = 'd056fa82-fc6e-422e-af14-718064869dd7';
 
